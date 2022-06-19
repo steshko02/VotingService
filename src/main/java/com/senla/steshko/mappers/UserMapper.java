@@ -19,7 +19,7 @@ public class UserMapper implements Mapper<User, UserDto>{
     }
 
     public UserDto toDto(User entity) {
-        return Objects.isNull(entity) ? null : mapper.map(entity, UserDto.class);
+            return Objects.isNull(entity) ? null : mapper.map(entity, UserDto.class);
     }
 
 }

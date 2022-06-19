@@ -17,4 +17,6 @@ public class UserDto extends AbstractDto{
         this.email = email;
     }
 
+    public UserDto() {
+    }
 }

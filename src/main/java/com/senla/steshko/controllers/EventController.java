@@ -1,30 +1,25 @@
 package com.senla.steshko.controllers;
 
-import com.senla.steshko.api.EventService;
 import com.senla.steshko.dto.entities.EventDto;
+import com.senla.steshko.dtoapi.EventDtoService;
 import com.senla.steshko.entities.Event;
-import com.senla.steshko.mappers.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/event")
 public class EventController {
 
     @Autowired
-    private EventService eventService;
-
-    @Autowired
-    private Mapper<Event, EventDto> modelMapper;
+    private EventDtoService eventService;
 
     @GetMapping("/get")
     public EventDto getById(@RequestParam("id") Long id) {
-        return modelMapper.toDto(eventService.getById(id));
+        return eventService.getById(id);
     }
 
     @PostMapping("/singin")
@@ -35,15 +30,13 @@ public class EventController {
     @GetMapping("/getPage/{page}")
     public List<EventDto> getById(@PathVariable Integer page,
                                   @RequestParam("size") Integer size, @RequestParam("attr") String sortAttribute) {
-        return eventService.getPaginationSortedEvents(page,size,sortAttribute).stream().
-                map(e->modelMapper.toDto(e)).collect(Collectors.toList());
+        return eventService.getPaginationSortedEvents(page,size,sortAttribute);
     }
 
     @GetMapping("/getActual")
     public List<EventDto> getActual(  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") @RequestParam("date") Date actualTime,
                                       @RequestParam("attr") String attribute){
-        return eventService.getActualSortedEvents(actualTime,attribute).stream().
-                map(e->modelMapper.toDto(e)).collect(Collectors.toList());
+        return eventService.getActualSortedEvents(actualTime,attribute);
     }
 
     @PostMapping("/save")
@@ -53,7 +46,7 @@ public class EventController {
 
     @PutMapping("/update")
     public EventDto update(@RequestBody EventDto event, @RequestParam Long id) {
-        return modelMapper.toDto(eventService.update(modelMapper.toEntity(event), id));
+        return eventService.update(event, id);
     }
 
     @DeleteMapping("/delete")

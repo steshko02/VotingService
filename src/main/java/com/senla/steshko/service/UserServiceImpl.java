@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public boolean ifExists(String email) {
-       UserDto dto = userRepository.findByEmail(email);
+//       UserDto dto = userRepository.findByEmail(email);
         return userRepository.existsByEmail(email);
     }
 }
