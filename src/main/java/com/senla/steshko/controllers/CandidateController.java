@@ -1,9 +1,7 @@
 package com.senla.steshko.controllers;
 
-import com.senla.steshko.api.CandidateService;
 import com.senla.steshko.dto.entities.CandidateDto;
-import com.senla.steshko.entities.Candidate;
-import com.senla.steshko.mappers.Mapper;
+import com.senla.steshko.dtoapi.CandidateDtoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,24 +10,22 @@ import org.springframework.web.bind.annotation.*;
 public class CandidateController {
 
     @Autowired
-    private CandidateService candidateService;
+    private CandidateDtoService candidateService;
 
-    @Autowired
-    private Mapper<Candidate, CandidateDto> modelMapper;
 
     @GetMapping("/get")
     public CandidateDto getById(@RequestParam("id") Long id) {
-        return modelMapper.toDto(candidateService.getById(id));
+        return candidateService.getById(id);
     }
 
     @PostMapping("/save")
     public Long save(@RequestBody CandidateDto candidate) {
-        return candidateService.save(modelMapper.toEntity(candidate));
+        return candidateService.save(candidate);
     }
 
     @PutMapping("/update")
     public CandidateDto update(@RequestBody CandidateDto candidate, @RequestParam Long id) {
-        return modelMapper.toDto(candidateService.update(modelMapper.toEntity(candidate), id));
+        return candidateService.update(candidate, id);
     }
 
     @DeleteMapping("/delete")

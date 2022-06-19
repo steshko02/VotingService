@@ -1,9 +1,7 @@
 package com.senla.steshko.controllers;
 
-import com.senla.steshko.api.VoteService;
 import com.senla.steshko.dto.entities.VoteDto;
-import com.senla.steshko.entities.Vote;
-import com.senla.steshko.mappers.Mapper;
+import com.senla.steshko.dtoapi.VoteDtoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,14 +10,11 @@ import org.springframework.web.bind.annotation.*;
 public class VoteController{
 
     @Autowired
-    private VoteService voteService;
-
-    @Autowired
-    private Mapper<Vote,VoteDto> modelMapper;
+    private VoteDtoService voteService;
 
     @GetMapping("/get")
     public VoteDto getById(@RequestParam("id") Long id) {
-        return modelMapper.toDto(voteService.getById(id));
+        return voteService.getById(id);
     }
 
     @GetMapping("/countByCandidateAndEvent")
@@ -29,12 +24,12 @@ public class VoteController{
 
     @PostMapping("/save")
     public Long save(@RequestBody VoteDto vote) {
-        return voteService.save(modelMapper.toEntity(vote));
+        return voteService.save(vote);
     }
 
     @PutMapping("/update")
-    public VoteDto update(@RequestBody Vote vote, @RequestParam Long id) {
-        return modelMapper.toDto(voteService.update(vote, id));
+    public VoteDto update(@RequestBody VoteDto vote, @RequestParam Long id) {
+        return voteService.update(vote, id);
     }
 
     @DeleteMapping("/delete")
