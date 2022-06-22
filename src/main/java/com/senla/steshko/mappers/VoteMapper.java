@@ -52,28 +52,28 @@ public class VoteMapper implements Mapper<Vote,VoteDto>{
                         .map(VoteDto::getCandidate, Vote::setCandidate));
     }
 
-    private Converter<Event, Long> convertEvent = new AbstractConverter<>() {
+    private Converter<Event, Long> convertEvent = new AbstractConverter<Event, Long>() {
         @Override
         protected Long convert(Event event) {
             return event.getId();
         }
     };
 
-    private Converter<Long, Event> convertDtoEvent = new AbstractConverter<>() {
+    private Converter<Long, Event> convertDtoEvent = new AbstractConverter<Long, Event>() {
         @Override
         protected Event convert(Long eventDto) {
             return eventService.getById(eventDto);
         }
     };
 
-    private Converter<Candidate, Long> convertCandidate = new AbstractConverter<>() {
+    private Converter<Candidate, Long> convertCandidate = new AbstractConverter<Candidate, Long>() {
         @Override
         protected Long convert(Candidate event) {
             return event.getId();
         }
     };
 
-    private Converter<Long, Candidate> convertDtoCandidate = new AbstractConverter<>() {
+    private Converter<Long, Candidate> convertDtoCandidate = new AbstractConverter<Long, Candidate>() {
         @Override
         protected Candidate convert(Long eventDto) {
             return candidateService.getById(eventDto);

@@ -27,6 +27,7 @@ public class EventServiceImpl implements EventService  {
     @Transactional
     @Override
     public Long save(Event entity) {
+        //хуета, убрать
          if(entity == null) {
              log.error("Entity of {} - NULL.", Event.class);
              throw new NullPointerException("entity for saving is null");
@@ -45,7 +46,7 @@ public class EventServiceImpl implements EventService  {
          return id;
     }
 
-    @Transactional
+    //Transactional(readonly - true) или убрать
     @Override
     public Event getById(Long id) {
         Event event =eventRepository.findEventById(id);
@@ -59,10 +60,6 @@ public class EventServiceImpl implements EventService  {
     @Transactional
     @Override
     public Event update(Event newEntity, Long id) {
-        if(newEntity == null) {
-            log.error("Entity of {} - NULL.",Candidate.class);
-            throw new NullPointerException("Entity of "+ Candidate.class+ " - NULL");
-        }
         Event entityFromDB = getById(id);
         if(entityFromDB == null) {
             log.error("Entity not found exception {}.",Event.class);
@@ -73,7 +70,6 @@ public class EventServiceImpl implements EventService  {
         return eventRepository.save(entityFromDB);
     }
 
-    @Transactional
     @Override
     public boolean eventSingIn(Long eventId, String password) {
         return eventRepository.checkByPassword(eventId, password);

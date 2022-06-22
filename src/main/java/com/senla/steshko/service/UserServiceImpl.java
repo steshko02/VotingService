@@ -2,6 +2,7 @@ package com.senla.steshko.service;
 
 import com.senla.steshko.api.UserService;
 import com.senla.steshko.dto.entities.UserDto;
+import com.senla.steshko.dto.views.UserView;
 import com.senla.steshko.entities.Role;
 import com.senla.steshko.entities.User;
 import com.senla.steshko.exception.EntityNotFoundException;
@@ -79,7 +80,14 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public boolean ifExists(String email) {
-//       UserDto dto = userRepository.findByEmail(email);
+
         return userRepository.existsByEmail(email);
+    }
+
+    @Transactional
+    @Override
+    public UserView getByEmail(String email) {
+        UserView view = userRepository.findByEmail(email);
+        return view;
     }
 }

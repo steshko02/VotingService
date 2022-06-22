@@ -54,7 +54,7 @@ public class EventMapper implements Mapper<Event, EventDto> {
                         .map(EventDto::getVoteIds, Event::setVotes));
     }
 
-   private Converter<Set<Candidate>, Set<Long>> convertCandidates = new AbstractConverter<>() {
+   private Converter<Set<Candidate>, Set<Long>> convertCandidates = new AbstractConverter<Set<Candidate>, Set<Long>>() {
         @Override
         protected Set<Long> convert(Set<Candidate> candidates) {
             System.out.println("dsfs");
@@ -62,7 +62,7 @@ public class EventMapper implements Mapper<Event, EventDto> {
         }
     };
 
-    private Converter<Set<Vote>, Set<Long>> convertVotes = new AbstractConverter<>() {
+    private Converter<Set<Vote>, Set<Long>> convertVotes = new AbstractConverter<Set<Vote>, Set<Long>>() {
         @Override
         protected Set<Long> convert(Set<Vote> candidates) {
             System.out.println("dsfs");
@@ -70,7 +70,7 @@ public class EventMapper implements Mapper<Event, EventDto> {
         }
     };
 
-    private Converter<Set<Long>, Set<Candidate>> convertDto = new AbstractConverter<>() {
+    private Converter<Set<Long>, Set<Candidate>> convertDto = new AbstractConverter<Set<Long>, Set<Candidate>>() {
         @Override
         protected Set<Candidate> convert(Set<Long> candidateDtos) {
             return candidateDtos.stream().map(e -> {
@@ -80,7 +80,7 @@ public class EventMapper implements Mapper<Event, EventDto> {
         }
     };
 
-   private Converter<Set<Long>, Set<Vote>> voteToDto = new AbstractConverter<>() {
+   private Converter<Set<Long>, Set<Vote>> voteToDto = new AbstractConverter<Set<Long>, Set<Vote>>() {
         @Override
         protected Set<Vote> convert(Set<Long> voteDtos) {
             return voteDtos.stream().map(e -> {

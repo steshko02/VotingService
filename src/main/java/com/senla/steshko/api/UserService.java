@@ -1,5 +1,7 @@
 package com.senla.steshko.api;
 
+import com.senla.steshko.dto.entities.UserDto;
+import com.senla.steshko.dto.views.UserView;
 import com.senla.steshko.entities.User;
 
 import java.util.List;
@@ -13,4 +15,6 @@ public interface UserService {
     List<User> getByRole(String role);
 
     boolean ifExists(String email);
+
+    UserView getByEmail(String email);
 }

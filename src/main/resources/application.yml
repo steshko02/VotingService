@@ -1,13 +1,7 @@
-#spring:
-#  datasource:
-#    driver-class-name: org.postgresql.Driver
-#    url: jdbc:postgresql://localhost:5432/voting
-#    username: postgres
-#    password: steshko
 spring:
   datasource:
-    driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/vote-docker-db
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5433/vote-docker-db
     username: postgres
     password: steshko
   jpa:
@@ -18,4 +12,3 @@ spring:
     open-in-view: false
   liquibase:
     change-log: db/changelog/db.changelog-master.xml
-

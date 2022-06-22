@@ -5,6 +5,7 @@ import com.senla.steshko.exception.ErrorMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -16,16 +17,21 @@ import java.util.Date;
 @Slf4j
 public class ControllerExceptionHandler{
 
+//    @ExceptionHandler(ResourceNotFoundException.class)
+//    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+//    public ErrorMessage resourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {
+//        ErrorMessage message = new ErrorMessage(
+//                HttpStatus.NOT_FOUND.value(),
+//                new Date(),
+//                ex.getMessage(),
+//                request.getDescription(false));
+//        return message;
+//    }
+
     @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
-    public ErrorMessage resourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {
-        ErrorMessage message = new ErrorMessage(
-                HttpStatus.NOT_FOUND.value(),
-                new Date(),
-                ex.getMessage(),
-                request.getDescription(false));
-
-        return message;
+    public ResponseEntity<String> resourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {
+        return new ResponseEntity<String>("message", HttpStatus.NOT_FOUND) ;
     }
 
     @ExceptionHandler(EntityNotFoundException.class)

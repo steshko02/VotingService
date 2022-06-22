@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-
+//объекты через конструктор с final полями  ( мб через ломбок)
 @Service
 public class EventDtoServiceImpl implements EventDtoService {
 
@@ -20,7 +20,6 @@ public class EventDtoServiceImpl implements EventDtoService {
 
     @Autowired
     private Mapper<Event, EventDto> modelMapper;
-
 
     @Override
     public Long save(Event entity) {

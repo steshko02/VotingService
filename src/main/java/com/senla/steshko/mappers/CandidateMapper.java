@@ -52,7 +52,7 @@ public class CandidateMapper implements Mapper<Candidate, CandidateDto> {
                         .map(CandidateDto::getVoteIds, Candidate::setVotes));
     }
 
-    private Converter<Event, Long> convertEvent = new AbstractConverter<>() {
+    private Converter<Event, Long> convertEvent = new AbstractConverter<Event,Long>() {
         @Override
         protected Long convert(Event event) {
             System.out.println("dsfs");
@@ -60,14 +60,14 @@ public class CandidateMapper implements Mapper<Candidate, CandidateDto> {
         }
     };
 
-    private Converter<Long, Event> convertDtoEvent = new AbstractConverter<>() {
+    private Converter<Long, Event> convertDtoEvent = new AbstractConverter<Long, Event>() {
         @Override
         protected Event convert(Long eventDto) {
             return eventService.getById(eventDto);
         }
     };
 
-    private Converter<Set<Vote>, Set<Long>> convertVotes = new AbstractConverter<>() {
+    private Converter<Set<Vote>, Set<Long>> convertVotes = new AbstractConverter<Set<Vote>, Set<Long>>() {
         @Override
         protected Set<Long> convert(Set<Vote> candidates) {
             System.out.println("dsfs");
@@ -75,7 +75,7 @@ public class CandidateMapper implements Mapper<Candidate, CandidateDto> {
         }
     };
 
-    private Converter<Set<Long>, Set<Vote>> voteToDto = new AbstractConverter<>() {
+    private Converter<Set<Long>, Set<Vote>> voteToDto = new AbstractConverter<Set<Long>, Set<Vote>>() {
         @Override
         protected Set<Vote> convert(Set<Long> voteDtos) {
             return voteDtos.stream().map(e -> {

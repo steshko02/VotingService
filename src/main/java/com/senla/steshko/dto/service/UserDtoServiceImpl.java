@@ -2,6 +2,7 @@ package com.senla.steshko.dto.service;
 
 import com.senla.steshko.api.UserService;
 import com.senla.steshko.dto.entities.UserDto;
+import com.senla.steshko.dto.views.UserView;
 import com.senla.steshko.dtoapi.UserDtoService;
 import com.senla.steshko.entities.User;
 import com.senla.steshko.mappers.Mapper;
@@ -48,5 +49,10 @@ public class UserDtoServiceImpl implements UserDtoService {
     @Override
     public boolean ifExists(String email) {
         return userService.ifExists(email);
+    }
+
+    @Override
+    public UserView getByEmail(String email) {
+        return userService.getByEmail(email);
     }
 }

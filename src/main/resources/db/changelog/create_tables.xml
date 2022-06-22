@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+        <changeSet id="1" author="Alex Steshko">
+            <createTable tableName="usrs">
+                <column name="id" type="bigserial">
+                    <constraints primaryKey="true" nullable="false"/>
+                </column>
+                <column name="first_name" type="varchar(64)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="last_name" type="varchar(64)">
+                    <constraints  nullable="false"/>
+                </column>
+                <column name="email" type="varchar(64)">
+                    <constraints unique="true" nullable="false"/>
+                </column>
+                <column name="password" type="varchar(255)"/>
+            </createTable>
+        </changeSet>
+
+        <changeSet id="2" author="Alex Steshko">
+            <createTable tableName="role">
+                <column name="id" type="bigserial">
+                    <constraints primaryKey="true" nullable="false"/>
+                </column>
+                <column name="name" type="varchar(64)">
+                    <constraints unique="true" nullable="false"/>
+                </column>
+            </createTable>
+        </changeSet>
+
+        <changeSet id="3" author="Alex Steshko">
+            <createTable tableName="user_role">
+                <column name="user_id" type="bigint">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="role_id" type="bigint">
+                    <constraints nullable="false"/>
+                </column>
+            </createTable>
+            <addForeignKeyConstraint baseTableName="user_role" baseColumnNames="user_id"
+                                     constraintName="user_role_user_id_fkey"
+                                     referencedTableName="usrs"
+                                     referencedColumnNames="id"/>
+            <addForeignKeyConstraint baseTableName="user_role" baseColumnNames="role_id"
+                                     constraintName="user_role_role_id_fkey"
+                                     referencedTableName="role"
+                                     referencedColumnNames="id"/>
+            <addPrimaryKey tableName="user_role" columnNames="user_id, role_id"/>
+        </changeSet>
+
+        <changeSet id="4" author="Alex Steshko">
+            <createTable tableName="event">
+                <column name="id" type="bigint" autoIncrement="true">
+                    <constraints primaryKey="true" nullable="false"/>
+                </column>
+                <column name="start" type="timestamp">
+    <!--                <constraints nullable="false"/>-->
+                </column>
+                <column name="finish" type="timestamp">
+    <!--                <constraints  nullable="false"/>-->
+                </column>
+                <column name="name" type="varchar(255)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="password" type="varchar(255)"/>
+                <column name="description" type="varchar(1024)"/>
+            </createTable>
+        </changeSet>
+
+        <changeSet id="5" author="Alex Steshko">
+            <createTable tableName="candidates">
+                <column name="id" type="bigint" autoIncrement="true">
+                    <constraints primaryKey="true" nullable="false"/>
+                </column>
+                <column name="user_id" type="bigint">
+                    <constraints nullable="false"/>
+                </column>
+
+                <column name="event_id" type="bigint">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="description" type="varchar(1024)"/>
+            </createTable>
+
+            <addForeignKeyConstraint baseTableName="candidates" baseColumnNames="user_id"
+                                     constraintName="user_candidates_fkey"
+                                     referencedTableName="usrs"
+                                     referencedColumnNames="id"/>
+            <addForeignKeyConstraint baseTableName="candidates" baseColumnNames="event_id"
+                                     constraintName="event_fkey"
+                                     referencedTableName="event"
+                                     referencedColumnNames="id"/>
+        </changeSet>
+
+        <changeSet id="6" author="Alex Steshko">
+            <createTable tableName="vote">
+                <column name="id" type="bigint" autoIncrement="true">
+                    <constraints primaryKey="true" nullable="false"/>
+                </column>
+                <column name="user_id" type="bigint">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="candidate_id" type="bigint">
+                    <constraints nullable="false"/>
+                </column>
+
+                <column name="event_id" type="bigint">
+                    <constraints nullable="false"/>
+                </column>
+            </createTable>
+
+            <addForeignKeyConstraint baseTableName="vote" baseColumnNames="user_id"
+                                     constraintName="user_owner_fkey"
+                                     referencedTableName="usrs"
+                                     referencedColumnNames="id"/>
+
+            <addForeignKeyConstraint baseTableName="vote" baseColumnNames="candidate_id"
+                                     constraintName="candidates_user_fkey"
+                                     referencedTableName="usrs"
+                                     referencedColumnNames="id"/>
+            <addForeignKeyConstraint baseTableName="vote" baseColumnNames="event_id"
+                                     constraintName="event_votes_fkey"
+                                     referencedTableName="event"
+                                     referencedColumnNames="id"/>
+        </changeSet>
+</databaseChangeLog>
