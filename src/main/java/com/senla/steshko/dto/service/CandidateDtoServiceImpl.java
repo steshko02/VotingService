@@ -5,17 +5,17 @@ import com.senla.steshko.dto.entities.CandidateDto;
 import com.senla.steshko.dtoapi.CandidateDtoService;
 import com.senla.steshko.entities.Candidate;
 import com.senla.steshko.mappers.Mapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class CandidateDtoServiceImpl implements CandidateDtoService {
 
-    @Autowired
-    private CandidateService candidateService;
+    private final CandidateService candidateService;
 
-    @Autowired
-    private Mapper<Candidate, CandidateDto> modelMapper;
+    private final Mapper<Candidate, CandidateDto> modelMapper;
 
     @Override
     public Long save(CandidateDto entity) {

@@ -4,6 +4,7 @@ package com.senla.steshko.controllers;
 import com.senla.steshko.api.AuthenticationService;
 import com.senla.steshko.dto.entities.UserAuthDto;
 import com.senla.steshko.dto.entities.UserDto;
+import com.senla.steshko.dto.entities.UserDtoWithoutPass;
 import com.senla.steshko.exception.IncorrectPasswordException;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -27,7 +28,7 @@ public class AuthenticationController {
 
     @SneakyThrows
     @PostMapping("/register")
-    public ResponseEntity<UserDto> register(@RequestBody UserDto userDto)  {
+    public ResponseEntity<UserDtoWithoutPass> register(@RequestBody UserDto userDto)  {
         return ResponseEntity.ok(authenticationService.register(userDto));
     }
 

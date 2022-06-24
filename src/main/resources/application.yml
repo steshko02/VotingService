@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5433/vote-docker-db
+    url: jdbc:postgresql://postgres:5433/vote-docker-db?autoReconnect=true&useSSL=false&createDatabaseIfNotExist=true
     username: postgres
     password: steshko
   jpa:

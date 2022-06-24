@@ -3,6 +3,7 @@ package com.senla.steshko.service;
 import com.senla.steshko.api.AuthenticationService;
 import com.senla.steshko.dto.entities.UserAuthDto;
 import com.senla.steshko.dto.entities.UserDto;
+import com.senla.steshko.dto.entities.UserDtoWithoutPass;
 import com.senla.steshko.dtoapi.UserDtoService;
 import com.senla.steshko.entities.Role;
 import com.senla.steshko.entities.User;
@@ -11,7 +12,7 @@ import com.senla.steshko.mappers.Mapper;
 import com.senla.steshko.repositories.RoleRepository;
 import com.senla.steshko.repositories.UserRepository;
 import com.senla.steshko.security.jwt.JwtProvider;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,27 +20,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 @Service
+@RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
 
-    @Autowired
-    private  AuthenticationManager authenticationManager;
-    @Autowired
-    private  JwtProvider jwtTokenProvider;
-    @Autowired
-    private  UserRepository userRepository;
-    @Autowired
-    private  RoleRepository roleRepository;
-    @Autowired
-    private  PasswordEncoder encoder;
-    @Autowired
-    private UserDtoService userDtoService;
-    @Autowired
-    private Mapper<User,UserDto> userDtoMapper;
+    private final  AuthenticationManager authenticationManager;
+    private final JwtProvider jwtTokenProvider;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder encoder;
+    private final UserDtoService userDtoService;
+    private final Mapper<User,UserDto> userDtoMapper;
 
     @Override
     @Transactional
@@ -47,20 +41,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String password = dto.getPassword();
         String email = dto.getEmail();
         User user = userRepository.findUserWithRoleByEmail(email);
-//
-//        if (user == null) {
-//            Set<Role> roles = new HashSet<>();
-//            roles.add(roleRepository.findByName("USER"));
-//            User newUser = new User();
-//
-//            newUser.setEmail(email);
-//            newUser.setPassword(encoder.encode(password));
-//            newUser.setRoles(roles);
-//
-//            userRepository.save( newUser);
-//
-//            return authenticate(email, password, roles);
-//        }
+
         Role adminRole = user.getRoles()
                 .stream()
                 .filter(role -> role.getName() == "ADMIN")
@@ -74,10 +55,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public UserDto register(UserDto dto) throws IncorrectPasswordException {
+    public UserDtoWithoutPass register(UserDto dto) throws IncorrectPasswordException {
         dto.setPassword(encoder.encode(dto.getPassword()));
         userDtoService.save(userDtoMapper.toEntity(dto));
-            return dto;
+            return new UserDtoWithoutPass(dto.getFirstName(),dto.getLastName(),dto.getEmail());
     }
 
 

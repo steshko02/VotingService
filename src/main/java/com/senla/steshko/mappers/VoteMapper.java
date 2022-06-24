@@ -6,6 +6,7 @@ import com.senla.steshko.dto.entities.VoteDto;
 import com.senla.steshko.entities.Candidate;
 import com.senla.steshko.entities.Event;
 import com.senla.steshko.entities.Vote;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -16,23 +17,19 @@ import javax.annotation.PostConstruct;
 import java.util.Objects;
 
 @Component
+@RequiredArgsConstructor
 public class VoteMapper implements Mapper<Vote,VoteDto>{
 
-    @Autowired
-    private ModelMapper mapper;
+    private final ModelMapper mapper;
 
-    @Autowired
-    private CandidateService candidateService;
+    private final CandidateService candidateService;
 
-    @Autowired
-    private EventService eventService;
+    private final EventService eventService;
 
-    @Override
-    public Vote toEntity(VoteDto dto)    {
+    public  Vote toEntity(VoteDto dto)    {
         return Objects.isNull(dto) ? null : mapper.map(dto, Vote.class);
     }
 
-    @Override
     public VoteDto toDto(Vote entity) {
         return Objects.isNull(entity) ? null : mapper.map(entity, VoteDto.class);
     }

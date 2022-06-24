@@ -2,20 +2,20 @@ package com.senla.steshko.controllers;
 
 import com.senla.steshko.dto.entities.VoteDto;
 import com.senla.steshko.dtoapi.VoteDtoService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/vote")
+@RequiredArgsConstructor
 public class VoteController{
 
-    @Autowired
-    private VoteDtoService voteService;
+    private final VoteDtoService voteService;
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/get")
-    public VoteDto getById(@RequestParam("id") Long id) {
+    @GetMapping("/{id}")
+    public VoteDto getById(@PathVariable("id") Long id) {
         return voteService.getById(id);
     }
 
@@ -26,20 +26,20 @@ public class VoteController{
     }
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
-    @PostMapping("/save")
+    @PostMapping("/")
     public Long save(@RequestBody VoteDto vote) {
         return voteService.save(vote);
     }
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
-    @PutMapping("/update")
+    @PutMapping("/")
     public VoteDto update(@RequestBody VoteDto vote, @RequestParam Long id) {
         return voteService.update(vote, id);
     }
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
-    @DeleteMapping("/delete")
-    public Long delete(@RequestParam Long id) {
+    @DeleteMapping("/{id}")
+    public Long delete(@PathVariable("id") Long id) {
         return voteService.delete(id);
     }
 }

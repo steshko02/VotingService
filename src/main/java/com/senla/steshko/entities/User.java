@@ -1,6 +1,7 @@
 package com.senla.steshko.entities;
 
 import lombok.*;
+import senla.steshko.aop.AutoTimeLogg;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -39,5 +40,10 @@ public class User extends BaseEntity{
 
     public User() {
 
+    }
+
+    @AutoTimeLogg
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

@@ -5,11 +5,13 @@ import com.senla.steshko.entities.Candidate;
 import com.senla.steshko.entities.Event;
 import com.senla.steshko.exception.EntityNotFoundException;
 import com.senla.steshko.repositories.EventRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,19 +21,16 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class EventServiceImpl implements EventService  {
 
-    @Autowired
-    private EventRepository eventRepository;
+    private final EventRepository eventRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     @Override
     public Long save(Event entity) {
-        //хуета, убрать
-         if(entity == null) {
-             log.error("Entity of {} - NULL.", Event.class);
-             throw new NullPointerException("entity for saving is null");
-         }
+        entity.setPassword(passwordEncoder.encode(entity.getPassword()));
         return eventRepository.save(entity).getId();
     }
 
@@ -46,7 +45,7 @@ public class EventServiceImpl implements EventService  {
          return id;
     }
 
-    //Transactional(readonly - true) или убрать
+    @Transactional(readOnly = true)
     @Override
     public Event getById(Long id) {
         Event event =eventRepository.findEventById(id);
@@ -70,18 +69,20 @@ public class EventServiceImpl implements EventService  {
         return eventRepository.save(entityFromDB);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public boolean eventSingIn(Long eventId, String password) {
-        return eventRepository.checkByPassword(eventId, password);
+        Event event = getById(eventId);
+        return passwordEncoder.matches(password, event.getPassword());
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public List<Event> getActualSortedEvents(Date start, String attribute) {
         return eventRepository.findByStartGreaterThanEqual(start, Sort.by(attribute));
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public List<Event> getPaginationSortedEvents(int pageNum,int pageSize,String attribute) {
         Pageable sortedByName = PageRequest.of(pageNum, pageSize, Sort.by(attribute));

@@ -1,12 +1,32 @@
-#version: '3'
-#
-#services:
-#  postgres:
-#    image: 'postgres'
-#    container_name: 'java-postgres'
-#    ports:
-#      - 5432:5432
-#    environment:
-#      - 'POSTGRES_USER=steshko'
-#      - 'POSTGRES_HOST_AUTH_METHOD=trust'
-#      - 'POSTGRES_DB=java'
+version: '3'
+
+services:
+  postgres:
+    image: 'postgres'
+    container_name: 'java-postgres'
+    restart: always
+    ports:
+      - 5433:5432
+    environment:
+       POSTGRES_DB: vote-docker-db
+       POSTGRES_PASSWORD: steshko
+       POSTGRES_USER: postgres
+       POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - postgres:/var/lib/postgresql/data
+  vote_service:
+    build: .
+    restart: always
+    ports:
+      - 8080:8080
+    #    logging:
+    #      driver: none
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/vote-docker-db?autoReconnect=true&useSSL=false
+    links:
+      - postgres
+    depends_on:
+      - postgres
+volumes:
+  postgres:
+    driver: local

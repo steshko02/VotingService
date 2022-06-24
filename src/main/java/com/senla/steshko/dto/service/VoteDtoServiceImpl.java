@@ -5,17 +5,17 @@ import com.senla.steshko.dto.entities.VoteDto;
 import com.senla.steshko.dtoapi.VoteDtoService;
 import com.senla.steshko.entities.Vote;
 import com.senla.steshko.mappers.Mapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class VoteDtoServiceImpl implements VoteDtoService {
 
-    @Autowired
-    private VoteService voteService;
+    private final VoteService voteService;
 
-    @Autowired
-    private Mapper<Vote,VoteDto> modelMapper;
+    private final Mapper<Vote,VoteDto> modelMapper;
 
     @Override
     public Long save(VoteDto entity) {

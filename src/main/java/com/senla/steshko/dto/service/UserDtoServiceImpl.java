@@ -6,6 +6,7 @@ import com.senla.steshko.dto.views.UserView;
 import com.senla.steshko.dtoapi.UserDtoService;
 import com.senla.steshko.entities.User;
 import com.senla.steshko.mappers.Mapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,13 +14,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class UserDtoServiceImpl implements UserDtoService {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private Mapper<User, UserDto> modelMapper;
+    private final Mapper<User, UserDto> modelMapper;
 
     @Override
     public Long save(User entity) {

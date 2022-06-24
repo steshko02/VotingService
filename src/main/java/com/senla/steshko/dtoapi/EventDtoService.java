@@ -1,5 +1,6 @@
 package com.senla.steshko.dtoapi;
 
+import com.senla.steshko.dto.entities.EventAuthDto;
 import com.senla.steshko.dto.entities.EventDto;
 import com.senla.steshko.entities.Event;
 
@@ -11,7 +12,7 @@ public interface EventDtoService {
     Long delete(Long id);
     EventDto getById(Long id);
     EventDto update(EventDto newEntity, Long id);
-    boolean eventSingIn(Long eventId, String password);
+    boolean eventSingIn(EventAuthDto entity);
 
     List<EventDto> getActualSortedEvents(Date start, String attribute);
 

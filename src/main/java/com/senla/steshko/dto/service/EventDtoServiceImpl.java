@@ -1,25 +1,25 @@
 package com.senla.steshko.dto.service;
 
 import com.senla.steshko.api.EventService;
+import com.senla.steshko.dto.entities.EventAuthDto;
 import com.senla.steshko.dto.entities.EventDto;
 import com.senla.steshko.dtoapi.EventDtoService;
 import com.senla.steshko.entities.Event;
 import com.senla.steshko.mappers.Mapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-//объекты через конструктор с final полями  ( мб через ломбок)
 @Service
+@RequiredArgsConstructor
 public class EventDtoServiceImpl implements EventDtoService {
 
-    @Autowired
-    private EventService eventService;
+    private final EventService eventService;
 
-    @Autowired
-    private Mapper<Event, EventDto> modelMapper;
+    private final Mapper<Event, EventDto> modelMapper;
 
     @Override
     public Long save(Event entity) {
@@ -42,8 +42,8 @@ public class EventDtoServiceImpl implements EventDtoService {
     }
 
     @Override
-    public boolean eventSingIn(Long eventId, String password) {
-        return eventService.eventSingIn(eventId,password);
+    public boolean eventSingIn(EventAuthDto entity) {
+        return eventService.eventSingIn(entity.getId(),entity.getPassword());
     }
 
     @Override

@@ -7,6 +7,7 @@ import com.senla.steshko.entities.Role;
 import com.senla.steshko.entities.User;
 import com.senla.steshko.exception.EntityNotFoundException;
 import com.senla.steshko.repositories.UserRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,18 +18,15 @@ import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     @Override
     public Long save(User entity) {
-        if(entity == null) {
-            log.error("Entity of {} - NULL.", User.class);
-            throw new NullPointerException("entity for saving is null");
-        }
+
         entity.setRoles(Collections.singleton(new Role(2L, "USER")));
         return userRepository.save(entity).getId();
     }
@@ -44,7 +42,7 @@ public class UserServiceImpl implements UserService {
         return id;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public User getById(Long id) {
         if(!userRepository.existsById(id)) {
@@ -57,10 +55,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public User update(User newEntity, Long id) {
-        if(newEntity == null) {
-            log.error("Entity of {} - NULL.", User.class);
-            throw new NullPointerException("Entity of "+ User.class+ " - NULL");
-        }
+
         User entityFromDB = getById(id);
         if(entityFromDB == null) {
             log.error("Entity not found exception {}.",User.class);
@@ -71,20 +66,19 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(entityFromDB);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public List<User> getByRole(String role) {
         return userRepository.findUsersByRole( role);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public boolean ifExists(String email) {
-
         return userRepository.existsByEmail(email);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public UserView getByEmail(String email) {
         UserView view = userRepository.findByEmail(email);
