@@ -15,19 +15,19 @@ public class CandidateController {
     private final CandidateDtoService candidateService;
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public CandidateDto getById(@PathVariable("id") Long id) {
         return candidateService.getById(id);
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @PostMapping("/")
+    @PostMapping
     public Long save(@RequestBody CandidateDto candidate) {
         return candidateService.save(candidate);
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @PutMapping("/")
+    @PutMapping
     public CandidateDto update(@RequestBody CandidateDto candidate) {
         return candidateService.update(candidate, candidate.getId());
     }

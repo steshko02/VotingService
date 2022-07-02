@@ -2,9 +2,11 @@ package com.senla.steshko.mappers;
 
 import com.senla.steshko.api.CandidateService;
 import com.senla.steshko.api.EventService;
+import com.senla.steshko.api.UserService;
 import com.senla.steshko.dto.entities.VoteDto;
 import com.senla.steshko.entities.Candidate;
 import com.senla.steshko.entities.Event;
+import com.senla.steshko.entities.User;
 import com.senla.steshko.entities.Vote;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.AbstractConverter;
@@ -26,6 +28,8 @@ public class VoteMapper implements Mapper<Vote,VoteDto>{
 
     private final EventService eventService;
 
+    private final UserService userService;
+
     public  Vote toEntity(VoteDto dto)    {
         return Objects.isNull(dto) ? null : mapper.map(dto, Vote.class);
     }
@@ -40,13 +44,17 @@ public class VoteMapper implements Mapper<Vote,VoteDto>{
                 .addMappings(mapper -> mapper.using(convertEvent)
                         .map(Vote::getEvent, VoteDto::setEvent))
                 .addMappings(mapper -> mapper.using(convertCandidate)
-                        .map(Vote::getCandidate, VoteDto::setCandidate));
+                        .map(Vote::getCandidate, VoteDto::setCandidate))
+                 .addMappings(mapper -> mapper.using(convertUser)
+                        .map(Vote::getOwner, VoteDto::setOwner));
 
         mapper.typeMap(VoteDto.class,Vote.class)
                 .addMappings(mapper -> mapper.using(convertDtoEvent)
                         .map(VoteDto::getEvent, Vote::setEvent))
                 .addMappings(mapper -> mapper.using(convertDtoCandidate)
-                        .map(VoteDto::getCandidate, Vote::setCandidate));
+                        .map(VoteDto::getCandidate, Vote::setCandidate))
+                .addMappings(mapper -> mapper.using(convertDtoUser)
+                        .map(VoteDto::getOwner, Vote::setOwner));
     }
 
     private Converter<Event, Long> convertEvent = new AbstractConverter<Event, Long>() {
@@ -60,6 +68,20 @@ public class VoteMapper implements Mapper<Vote,VoteDto>{
         @Override
         protected Event convert(Long eventDto) {
             return eventService.getById(eventDto);
+        }
+    };
+
+    private Converter<User, Long> convertUser = new AbstractConverter<User, Long>() {
+        @Override
+        protected Long convert(User user) {
+            return user.getId();
+        }
+    };
+
+    private Converter<Long, User> convertDtoUser = new AbstractConverter<Long, User>() {
+        @Override
+        protected User convert(Long eventDto) {
+            return userService.getById(eventDto);
         }
     };
 

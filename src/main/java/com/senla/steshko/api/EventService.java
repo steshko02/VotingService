@@ -15,4 +15,5 @@ public interface EventService {
     List<Event> getActualSortedEvents(Date start, String attribute);
 
     List<Event> getPaginationSortedEvents(int pageNum, int pageSize, String attribute);
+
 }

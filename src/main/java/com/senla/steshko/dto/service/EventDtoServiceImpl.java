@@ -8,7 +8,11 @@ import com.senla.steshko.entities.Event;
 import com.senla.steshko.mappers.Mapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Date;
 import java.util.List;
@@ -16,6 +20,9 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class EventDtoServiceImpl implements EventDtoService {
+
+
+    private final RestTemplate restTemplate;
 
     private final EventService eventService;
 
@@ -56,5 +63,19 @@ public class EventDtoServiceImpl implements EventDtoService {
     public List<EventDto> getPaginationSortedEvents(int pageNum, int pageSize, String attribute) {
         return eventService.getPaginationSortedEvents(pageNum,pageSize,attribute).stream().
                 map(e->modelMapper.toDto(e)).collect(Collectors.toList());
+    }
+
+    @Override
+    public EventDto getEventByRestTemplate() {
+        ResponseEntity<EventDto> response = restTemplate.exchange(
+                "http://sender-app:8100/event", HttpMethod.GET, null,
+                new ParameterizedTypeReference<EventDto>(){});
+        return  response.getBody();
+    }
+    @Override
+    public String  sayHello() {
+        ResponseEntity<String> response
+                = restTemplate.getForEntity("http://sender-app:8100/sayHello", String.class);
+        return  response.getBody();
     }
 }

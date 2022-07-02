@@ -17,4 +17,8 @@ public interface EventDtoService {
     List<EventDto> getActualSortedEvents(Date start, String attribute);
 
     List<EventDto> getPaginationSortedEvents(int pageNum, int pageSize, String attribute);
+
+    EventDto getEventByRestTemplate();
+
+    String  sayHello();
 }

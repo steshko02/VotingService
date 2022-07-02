@@ -54,7 +54,6 @@ public class CandidateMapper implements Mapper<Candidate, CandidateDto> {
     private Converter<Event, Long> convertEvent = new AbstractConverter<Event,Long>() {
         @Override
         protected Long convert(Event event) {
-            System.out.println("dsfs");
             return event.getId();
         }
     };
@@ -69,7 +68,6 @@ public class CandidateMapper implements Mapper<Candidate, CandidateDto> {
     private Converter<Set<Vote>, Set<Long>> convertVotes = new AbstractConverter<Set<Vote>, Set<Long>>() {
         @Override
         protected Set<Long> convert(Set<Vote> candidates) {
-            System.out.println("dsfs");
             return candidates.stream().map(e -> e.getId()).collect(Collectors.toSet());
         }
     };

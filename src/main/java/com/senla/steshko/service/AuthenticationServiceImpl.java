@@ -30,21 +30,22 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final  AuthenticationManager authenticationManager;
     private final JwtProvider jwtTokenProvider;
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
     private final PasswordEncoder encoder;
     private final UserDtoService userDtoService;
     private final Mapper<User,UserDto> userDtoMapper;
 
+
+    //UserAuthDto из репы, так как ниче больше не надо
     @Override
     @Transactional
-    public Map<String, String> login(UserAuthDto dto) throws IncorrectPasswordException {
+    public Map<String, String> login(UserAuthDto dto) {
         String password = dto.getPassword();
         String email = dto.getEmail();
         User user = userRepository.findUserWithRoleByEmail(email);
 
         Role adminRole = user.getRoles()
                 .stream()
-                .filter(role -> role.getName() == "ADMIN")
+                .filter(role -> role.getName().equals("ADMIN"))
                 .findAny().orElse(null);
 
         if (adminRole != null && !encoder.matches(dto.getPassword(), user.getPassword())) {

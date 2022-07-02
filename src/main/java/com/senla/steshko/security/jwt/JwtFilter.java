@@ -39,5 +39,4 @@ public class JwtFilter extends GenericFilterBean {
         }
         chain.doFilter(request, response);
     }
-
 }

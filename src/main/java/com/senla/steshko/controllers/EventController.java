@@ -46,6 +46,15 @@ public class EventController {
         return eventService.getActualSortedEvents(actualTime,attribute);
     }
 
+    @GetMapping("/testRest")
+    public EventDto testRest() {
+        return eventService.getEventByRestTemplate();
+    }
+    @GetMapping("/sayHello")
+    public String sayHello() {
+        return eventService.sayHello();
+    }
+
     //new dto with passw
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")

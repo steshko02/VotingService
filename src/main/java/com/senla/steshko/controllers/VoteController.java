@@ -7,7 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "/vote")
+@RequestMapping(path = "/votes")
 @RequiredArgsConstructor
 public class VoteController{
 
@@ -26,15 +26,15 @@ public class VoteController{
     }
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
-    @PostMapping("/")
+    @PostMapping
     public Long save(@RequestBody VoteDto vote) {
         return voteService.save(vote);
     }
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
-    @PutMapping("/")
-    public VoteDto update(@RequestBody VoteDto vote, @RequestParam Long id) {
-        return voteService.update(vote, id);
+    @PutMapping
+    public VoteDto update(@RequestBody VoteDto vote) {
+        return voteService.update(vote, vote.getId());
     }
 
     @PreAuthorize("hasAuthority('ROLE_USER')")

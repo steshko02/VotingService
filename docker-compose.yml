@@ -1,32 +1,63 @@
 version: '3'
 
 services:
+  app2:
+    image: 'vote_sender:1.0'
+    container_name: 'sender'
+    restart: always
+    ports:
+      - '8100:8080'
+    #    logging:
+    #      driver: none
+    links:
+      - rabbitmq3
+      - eureka-server
+    depends_on:
+      - rabbitmq3
+      - eureka-server
   postgres:
     image: 'postgres'
     container_name: 'java-postgres'
     restart: always
     ports:
-      - 5433:5432
+      - "5433:5432"
     environment:
        POSTGRES_DB: vote-docker-db
        POSTGRES_PASSWORD: steshko
        POSTGRES_USER: postgres
-       POSTGRES_HOST_AUTH_METHOD: trust
     volumes:
       - postgres:/var/lib/postgresql/data
+  rabbitmq3:
+    container_name: "rabbitmq3"
+    image: 'rabbitmq:3-management'
+    environment:
+       - RABBITMQ_DEFAULT_USER=admin
+       - RABBITMQ_DEFAULT_PASS=admin
+    ports:
+       - '5672:5672'
+       - '15672:15672'
   vote_service:
     build: .
     restart: always
     ports:
-      - 8080:8080
+      - '8080:8080'
     #    logging:
     #      driver: none
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/vote-docker-db?autoReconnect=true&useSSL=false
     links:
       - postgres
+      - rabbitmq3
+      - eureka-server
     depends_on:
       - postgres
+      - rabbitmq3
+      - eureka-server
+  eureka-server:
+    image: 'discovery-server:1.0'
+    hostname: eureka-server
+    ports:
+      - "8761:8761"
 volumes:
   postgres:
     driver: local

@@ -61,11 +61,10 @@ public class JwtProvider {
         return (bearerToken != null && bearerToken.startsWith(prefix)) ?
                 bearerToken.substring(prefix.length()) : null;
     }
-
+    // TokenValidationException("Token is invalid!"); текст в статик файнал + констр
     public boolean validateToken(String token) {
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
-
             return !claims.getBody().getExpiration().before(new Date());
         } catch (JwtException | IllegalArgumentException e) {
             throw new TokenValidationException("Token is invalid!");
