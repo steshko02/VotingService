@@ -32,41 +32,13 @@ public class VoteDaoTest {
     private Candidate candidate;
     private User owner;
 
-
     private void setDate() {
         event= new Event();
-
         owner = new User();
-
         candidate = new Candidate();
-
         event.setId(1L);
-//        event.setPassword("passwordTest");
-//        event.setName("testEvent");
-//        event.setDescription("test test test");
-//        event.setStart(new Date());
-//        event.setFinish(new Date());
-
-
         candidate.setId(1L);
-//        candidate.setVotes(Set.of(vote));
-//        candidate.setDescription("testetstetes");
-
-
-
         owner.setId(1L);
-//        owner.setEmail("testEmail");
-//        owner.setRoles(Collections.singleton(new Role(2L,"USER")));
-//        owner.setFirstName("test");
-//        owner.setLastName("test");
-//        owner.setPassword("testPassword");
-
-//        candidate.setUser(owner);
-//        candidate.setEvent(event);
-//        event.setCandidates(Set.of(candidate));
-//        owner.setVotes(Set.of(vote));
-//        event.setVotes(Set.of(vote));
-
 
     }
     @BeforeEach

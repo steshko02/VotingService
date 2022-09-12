@@ -34,8 +34,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserDtoService userDtoService;
     private final Mapper<User,UserDto> userDtoMapper;
 
-
-    //UserAuthDto из репы, так как ниче больше не надо
     @Override
     @Transactional
     public Map<String, String> login(UserAuthDto dto) {

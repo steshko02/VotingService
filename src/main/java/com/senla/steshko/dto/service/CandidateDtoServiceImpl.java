@@ -14,24 +14,19 @@ import org.springframework.stereotype.Service;
 public class CandidateDtoServiceImpl implements CandidateDtoService {
 
     private final CandidateService candidateService;
-
     private final Mapper<Candidate, CandidateDto> modelMapper;
-
     @Override
     public Long save(CandidateDto entity) {
         return candidateService.save(modelMapper.toEntity(entity));
     }
-
     @Override
     public Long delete(Long id) {
         return candidateService.delete(id);
     }
-
     @Override
     public CandidateDto getById(Long id) {
         return modelMapper.toDto(candidateService.getById(id));
     }
-
     @Override
     public CandidateDto update(CandidateDto newEntity, Long id) {
         return modelMapper.toDto(candidateService.update(modelMapper.toEntity(newEntity), id));

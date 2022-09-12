@@ -10,9 +10,14 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableEurekaClient
 @EnableSwagger2
 public class VotingServiceApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(VotingServiceApplication.class, args);
     }
-
 }
+//<!--//kafka-->
+//<!--//mapstruct, dozer-->
+// test container
+// gradle
+//проекции
+// feign
+

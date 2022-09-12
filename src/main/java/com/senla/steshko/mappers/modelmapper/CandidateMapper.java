@@ -1,4 +1,4 @@
-package com.senla.steshko.mappers;
+package com.senla.steshko.mappers.modelmapper;
 
 import com.senla.steshko.api.EventService;
 import com.senla.steshko.api.VoteService;
@@ -6,6 +6,7 @@ import com.senla.steshko.dto.entities.CandidateDto;
 import com.senla.steshko.entities.Candidate;
 import com.senla.steshko.entities.Event;
 import com.senla.steshko.entities.Vote;
+import com.senla.steshko.mappers.Mapper;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.Converter;
@@ -23,9 +24,7 @@ import java.util.stream.Collectors;
 public class CandidateMapper implements Mapper<Candidate, CandidateDto> {
 
     private final ModelMapper mapper;
-
     private final VoteService voteService;
-
     private final EventService eventService;
 
     public Candidate toEntity(CandidateDto dto) {

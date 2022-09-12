@@ -60,7 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/swagger-resources/**",
             "/configuration/ui",
             "/configuration/security",
-            "/swagger-ui/index.html",
+                "/swagger-ui/index.html",
             "/webjars/**",
             "/v3/api-docs/**",
             "/swagger-ui/**"

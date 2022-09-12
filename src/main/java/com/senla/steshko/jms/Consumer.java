@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Consumer {
-
     @RabbitListener(queues = JmsConfig.QK_EXAMPLE_QUEUE)
     public void onMessageReceived(String message){
         System.out.println("Message received!: " + message);

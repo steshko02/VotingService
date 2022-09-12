@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 public class CandidateController {
 
     private final CandidateDtoService candidateService;
-
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("{id}")
     public CandidateDto getById(@PathVariable("id") Long id) {

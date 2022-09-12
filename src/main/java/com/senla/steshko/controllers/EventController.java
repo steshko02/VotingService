@@ -55,7 +55,6 @@ public class EventController {
         return eventService.sayHello();
     }
 
-    //new dto with passw
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/")

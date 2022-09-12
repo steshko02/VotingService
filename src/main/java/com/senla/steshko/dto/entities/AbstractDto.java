@@ -10,14 +10,11 @@ import java.util.Objects;
 @Setter
 public class AbstractDto {
     private Long id;
-
     public AbstractDto(Long id) {
         this.id = id;
     }
-
     public AbstractDto() {
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -25,7 +22,6 @@ public class AbstractDto {
         AbstractDto that = (AbstractDto) o;
         return Objects.equals(id, that.id);
     }
-
     @Override
     public int hashCode() {
         return Objects.hash(id);

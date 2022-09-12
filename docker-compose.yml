@@ -3,6 +3,7 @@ version: '3'
 services:
   app2:
     image: 'vote_sender:1.0'
+#    image: 'vote_sender'
     container_name: 'sender'
     restart: always
     ports:
@@ -41,8 +42,6 @@ services:
     restart: always
     ports:
       - '8080:8080'
-    #    logging:
-    #      driver: none
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/vote-docker-db?autoReconnect=true&useSSL=false
     links:
@@ -55,6 +54,8 @@ services:
       - eureka-server
   eureka-server:
     image: 'discovery-server:1.0'
+#      image: 'discovery-server'
+    container_name: 'discovery-server'
     hostname: eureka-server
     ports:
       - "8761:8761"

@@ -18,9 +18,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 public class AuthenticationController {
-
     private final AuthenticationService authenticationService;
-
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@RequestBody UserAuthDto dto) {
             return ResponseEntity.ok(authenticationService.login(dto));

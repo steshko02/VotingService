@@ -8,6 +8,7 @@ import com.senla.steshko.entities.User;
 import com.senla.steshko.mappers.Mapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class UserDtoServiceImpl implements UserDtoService {
 
     private final UserService userService;
 
+    @Qualifier("userMapper")
     private final Mapper<User, UserDto> modelMapper;
 
     @Override
@@ -43,7 +45,7 @@ public class UserDtoServiceImpl implements UserDtoService {
 
     @Override
     public List<UserDto> getByRole(String role) {
-        return userService.getByRole(role).stream().map(e->modelMapper.toDto(e)).collect(Collectors.toList());
+        return userService.getByRole(role).stream().map(modelMapper::toDto).collect(Collectors.toList());
     }
 
     @Override
